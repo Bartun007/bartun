@@ -1,0 +1,57 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bartunapp
+  labels:
+    app: bartunapp
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: bartunapp
+  template:
+    metadata:
+      labels:
+        app: bartunapp
+    spec:
+      containers:
+        - name: bartunapp
+          # Change this to your actual image name in your registry
+          image: bartunapp:latest
+          # For a registry like Docker Hub or GHCR, it would look like:
+          # image: your-dockerhub-username/bartunapp:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 8080
+          env:
+            # You can add Spring Boot env vars here if needed, e.g.:
+            # - name: SPRING_PROFILES_ACTIVE
+            #   value: "prod"
+            - name: JAVA_TOOL_OPTIONS
+              value: "-XX:+ExitOnOutOfMemoryError"
+          resources:
+            # Start conservative; adjust based on real usage
+            requests:
+              cpu: "100m"
+              memory: "256Mi"
+            limits:
+              cpu: "500m"
+              memory: "512Mi"
+          readinessProbe:
+            httpGet:
+              path: /actuator/health/readiness
+              port: http
+            initialDelaySeconds: 20
+            periodSeconds: 10
+            failureThreshold: 3
+          livenessProbe:
+            httpGet:
+              path: /actuator/health/liveness
+              port: http
+            initialDelaySeconds: 30
+            periodSeconds: 20
+            failureThreshold: 3
+      # If you push to a private registry, you might need:
+      # imagePullSecrets:
+      #   - name: your-regcred

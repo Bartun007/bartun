@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: bartunapp
+  labels:
+    app: bartunapp
+spec:
+  selector:
+    app: bartunapp
+  ports:
+    - name: http
+      port: 80        # Cluster port
+      targetPort: 8080  # Container port (from Dockerfile / app)
+  type: ClusterIP
