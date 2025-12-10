@@ -1,7 +1,5 @@
-
 name: Build Docker Image
 
-# Trigger workflow on push to main branch (or any branch)
 on:
   push:
     branches:
@@ -12,11 +10,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Step 1: Checkout your code
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      # Step 2: Log in to Docker Hub (optional, needed if pushing)
       - name: Log in to GHCR
         uses: docker/login-action@v2
         with:
@@ -24,12 +20,12 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      # Step 3: Build Docker image
       - name: Build Docker image
         run: |
-          docker build -t Bartun007/bartunapp:latest .
+          IMAGE_NAME=ghcr.io/${{ github.repository_owner }}/bartunapp:latest
+          docker build -t $IMAGE_NAME .
 
-      # Step 4: Push Docker image to Docker Hub
       - name: Push Docker image
         run: |
-          docker push Bartun007/bartunapp:latest
+          IMAGE_NAME=ghcr.io/${{ github.repository_owner }}/bartunapp:latest
+          docker push $IMAGE_NAME
