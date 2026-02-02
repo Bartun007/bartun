@@ -20,7 +20,7 @@ spec:
           image: ghcr.io/bartun007/bartunapp:latest
           # For a registry like Docker Hub or GHCR, it would look like:
           # image: your-dockerhub-username/bartunapp:latest
-          imagePullPolicy: IfNotPresent
+          imagePullPolicy: Always
           ports:
             - name: http
               containerPort: 8080

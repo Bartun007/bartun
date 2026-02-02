@@ -9,12 +9,14 @@ import java.util.Map;
 @RestController
 public class HelloController {
 
-    @GetMapping("/hello")
-    public Map<String,Object> hello(HttpServletRequest request) {
+  @GetMapping("/hello")
+  public Map<String, Object> hello(HttpServletRequest request) {
 
-      Map<String, Object> result = Map.of("version", "0.1", "clientIp", request.getRemoteAddr());
+    Map<String, Object> result = Map.of("version", "0.1", "clientIp", request.getRemoteAddr());
 
-      return result;
-    }
+    System.out.println("Remote Address:" + request.getRemoteAddr());
+
+    return result;
+  }
 }
 
