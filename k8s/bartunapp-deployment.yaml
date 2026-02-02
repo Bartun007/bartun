@@ -17,7 +17,7 @@ spec:
       containers:
         - name: bartunapp
           # Change this to your actual image name in your registry
-          image: bartunapp:latest
+          image: ghcr.io/bartun007/bartunapp:latest
           # For a registry like Docker Hub or GHCR, it would look like:
           # image: your-dockerhub-username/bartunapp:latest
           imagePullPolicy: IfNotPresent
@@ -36,7 +36,7 @@ spec:
               cpu: "100m"
               memory: "256Mi"
             limits:
-              cpu: "500m"
+              cpu: "600m"
               memory: "512Mi"
           readinessProbe:
             httpGet:
@@ -52,6 +52,3 @@ spec:
             initialDelaySeconds: 30
             periodSeconds: 20
             failureThreshold: 3
-      # If you push to a private registry, you might need:
-      # imagePullSecrets:
-      #   - name: your-regcred
